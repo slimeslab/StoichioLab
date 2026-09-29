@@ -1,0 +1,202 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>StoichioLab</title>
+  <link rel="icon" type="image/png" href="stoichiolab-icon.png">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link
+    href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700&family=Inter:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;600&display=swap"
+    rel="stylesheet">
+  <link rel="stylesheet" href="styles.css">
+</head>
+
+<body>
+
+  <header class="site-header">
+    <a class="brand" href="./">
+      <img class="brand-logo-full" src="stoichiolab-full.png" alt="StoichioLab">
+      <img class="brand-logo-icon" src="stoichiolab-icon.png" alt="StoichioLab">
+    </a>
+    <div class="header-right">
+      <nav class="nav-links" id="navLinks">
+      <a href="./" class="active">Home</a>
+      <a href="calculator/">Calculator</a>
+      <a href="history/">History</a>
+      <a href="contact/">Contact</a>
+    </nav>
+      <button class="nav-toggle" id="navToggle" aria-label="Toggle menu" aria-controls="navLinks" aria-expanded="false">
+        <span></span><span></span><span></span>
+      </button>
+    </div>
+  </header>
+
+  <section class="hero">
+    <div class="hero-inner">
+      <div class="hero-copy">
+        <span class="eyebrow-pill">Precursor stoichiometry, solved</span>
+        <h1>StoichioLab</h1>
+        <p>Turn a target composition into a weighing sheet. Give it what you want to make, what you have on the
+          shelf, and how much you need: StoichioLab solves the precursor balance and tells you exactly how
+          many grams of each to weigh out.</p>
+        <div class="cta-row">
+          <a class="btn btn-primary" href="calculator/">Open Calculator</a>
+          <a class="btn btn-secondary" href="history/">View History</a>
+        </div>
+        <div class="trust-row">
+          <span>No install</span><span>&middot;</span><span>No server</span><span>&middot;</span><span>Runs entirely in your browser</span>
+        </div>
+      </div>
+      <div class="hero-visual" aria-hidden="true">
+        <div class="reaction-card">
+          <div class="reaction-row reaction-row-wrap">
+            <span class="chip">BaCO<sub>3</sub></span>
+            <span class="chip-plus">+</span>
+            <span class="chip">CaCO<sub>3</sub></span>
+            <span class="chip-plus">+</span>
+            <span class="chip">TiO<sub>2</sub></span>
+            <span class="chip-plus">+</span>
+            <span class="chip">ZrO<sub>2</sub></span>
+          </div>
+          <div class="reaction-arrow">
+            <svg viewBox="0 0 10 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
+              <line x1="5" y1="1" x2="5" y2="21" />
+              <polyline points="1 16 5 21 9 16" />
+            </svg>
+          </div>
+          <div class="reaction-row">
+            <span class="chip chip-result">Ba<sub>0.8</sub>Ca<sub>0.2</sub>Ti<sub>0.9</sub>Zr<sub>0.1</sub>O<sub>3</sub></span>
+          </div>
+          <div class="reaction-mass">
+            <span class="rm-label">mass needed &middot; 10 g target</span>
+            <div class="rm-grid">
+              <span>BaCO<sub>3</sub> <b>7.2391 g</b></span>
+              <span>CaCO<sub>3</sub> <b>0.9179 g</b></span>
+              <span>TiO<sub>2</sub> <b>3.2960 g</b></span>
+              <span>ZrO<sub>2</sub> <b>0.5650 g</b></span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <div class="page-body">
+    <h2 class="section-title">What it does</h2>
+    <p class="section-sub">Built for solid-state ceramic synthesis, where the target composition and the precursor
+      chemicals rarely match 1:1.</p>
+
+    <div class="card-grid">
+      <div class="feature-card">
+        <div class="icon-badge">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"
+            stroke-linejoin="round">
+            <line x1="19" y1="5" x2="5" y2="19" />
+            <circle cx="6.5" cy="6.5" r="2.5" />
+            <circle cx="17.5" cy="17.5" r="2.5" />
+          </svg>
+        </div>
+        <h3>Mol% or Wt% target input</h3>
+        <p>Enter your target composition as plain stoichiometric coefficients (mol%) or as weight fractions (wt%);
+          StoichioLab converts wt% to mole ratios via molar mass automatically.</p>
+      </div>
+      <div class="feature-card">
+        <div class="icon-badge">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"
+            stroke-linejoin="round">
+            <line x1="8" y1="6" x2="21" y2="6" />
+            <line x1="8" y1="12" x2="21" y2="12" />
+            <line x1="8" y1="18" x2="21" y2="18" />
+            <line x1="3" y1="6" x2="3.01" y2="6" />
+            <line x1="3" y1="12" x2="3.01" y2="12" />
+            <line x1="3" y1="18" x2="3.01" y2="18" />
+          </svg>
+        </div>
+        <h3>DO-NOT-balance rules</h3>
+        <p>Model real decomposition chemistry (carbonate and nitrate groups leaving behind an oxide, atmospheric
+          oxygen equilibration, crystal water in hydrates) without corrupting the precursor's real molar mass.
+        </p>
+      </div>
+      <div class="feature-card">
+        <div class="icon-badge">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"
+            stroke-linejoin="round">
+            <line x1="6" y1="20" x2="6" y2="10" />
+            <line x1="12" y1="20" x2="12" y2="4" />
+            <line x1="18" y1="20" x2="18" y2="14" />
+          </svg>
+        </div>
+        <h3>Doping % reported for free</h3>
+        <p>Every precursor's result row shows its own wt%/mol% share of the mix: a minor precursor added as a
+          dopant reads exactly like a paper's "doped at 0.6 wt%," no separate calculation needed.</p>
+      </div>
+      <div class="feature-card">
+        <div class="icon-badge">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"
+            stroke-linejoin="round">
+            <polygon points="12 2 2 7 12 12 22 7 12 2" />
+            <polyline points="2 17 12 22 22 17" />
+            <polyline points="2 12 12 17 22 12" />
+          </svg>
+        </div>
+        <h3>Doping-series batch mode</h3>
+        <p>Solve several full compositions in one pass, e.g. different doping levels of the same system, instead
+          of re-entering the target table and hitting Solve one composition at a time.</p>
+      </div>
+      <div class="feature-card">
+        <div class="icon-badge">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"
+            stroke-linejoin="round">
+            <path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20" />
+            <path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z" />
+          </svg>
+        </div>
+        <h3>Literature references</h3>
+        <p>Looks up papers on the same substitution family as your target, e.g. Ba<sub>1-x</sub>Ca<sub>x</sub>Ti<sub>1-y</sub>Zr<sub>y</sub>O<sub>3</sub>
+          at any doping level, not just this exact one, via Crossref's free search API.</p>
+      </div>
+      <div class="feature-card">
+        <div class="icon-badge">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"
+            stroke-linejoin="round">
+            <path d="M19 21l-7-5-7 5V5a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2z" />
+          </svg>
+        </div>
+        <h3>Save, export &amp; share</h3>
+        <p>Save named recipes or copy a share link that reconstructs your exact setup elsewhere, export results as
+          CSV or print, and every solve stays in your <a href="history/">history</a> across browser restarts.</p>
+      </div>
+    </div>
+
+    <h2 class="section-title">How it works</h2>
+    <p class="section-sub">Three inputs, one solve.</p>
+    <div class="steps-row">
+      <div class="step">
+        <div class="step-num">1</div>
+        <h4>Target composition</h4>
+        <p>Type a formula or fill in an element table, in mol% or wt%.</p>
+      </div>
+      <div class="step">
+        <div class="step-num">2</div>
+        <h4>Precursors on hand</h4>
+        <p>List the chemical formulas you actually have, molar mass is computed automatically.</p>
+      </div>
+      <div class="step">
+        <div class="step-num">3</div>
+        <h4>Solve</h4>
+        <p>Get grams per precursor, a balance-residual check, and doping %, saved to your history.</p>
+      </div>
+    </div>
+  </div>
+
+  <footer class="site-footer">
+    Copyright &copy; 2026 <a href="https://slimeslab.github.io">SLIMES Lab</a> &middot; Made with &hearts; by <a href="https://aritraroy.live">Aritra Roy</a> &middot; <a href="https://opensource.org/licenses/MIT">MIT License</a>
+  </footer>
+
+<script src="nav.js"></script>
+</body>
+
+</html>

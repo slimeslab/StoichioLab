@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>History - StoichioLab</title>
+<link rel="icon" type="image/png" href="../stoichiolab-icon.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700&family=Inter:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../styles.css">
+</head>
+<body>
+
+<header class="site-header">
+  <a class="brand" href="../">
+    <img class="brand-logo-full" src="../stoichiolab-full.png" alt="StoichioLab">
+    <img class="brand-logo-icon" src="../stoichiolab-icon.png" alt="StoichioLab">
+  </a>
+  <div class="header-right">
+    <nav class="nav-links" id="navLinks">
+    <a href="../">Home</a>
+    <a href="../calculator/">Calculator</a>
+    <a href="./" class="active">History</a>
+    <a href="../contact/">Contact</a>
+  </nav>
+    <button class="nav-toggle" id="navToggle" aria-label="Toggle menu" aria-controls="navLinks" aria-expanded="false">
+      <span></span><span></span><span></span>
+    </button>
+  </div>
+</header>
+
+<div class="page-banner">
+  <div>
+    <h1>Calculation History</h1>
+    <p>Every solve you run on the <a href="../calculator/" style="color:#fff;">Calculator</a> page is saved here, most recent first, stored in this browser's local storage, so it stays until you clear it or clear the browser's site data.</p>
+  </div>
+</div>
+
+<div class="history-toolbar">
+  <p id="historyCount">Loading&hellip;</p>
+  <button type="button" id="clearHistoryBtn">Clear history</button>
+</div>
+<div id="historyList" class="history-list"></div>
+
+<footer class="site-footer">
+  Copyright &copy; 2026 <a href="https://slimeslab.github.io">SLIMES Lab</a> &middot; Made with &hearts; by <a href="https://aritraroy.live">Aritra Roy</a> &middot; <a href="https://opensource.org/licenses/MIT">MIT License</a>
+</footer>
+
+<script src="../nav.js"></script>
+<script src="../modal.js"></script>
+<script src="../history.js"></script>
+</body>
+</html>

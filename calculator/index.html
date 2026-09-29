@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Calculator - StoichioLab</title>
+<link rel="icon" type="image/png" href="../stoichiolab-icon.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700&family=Inter:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../styles.css">
+</head>
+<body>
+
+<header class="site-header">
+  <a class="brand" href="../">
+    <img class="brand-logo-full" src="../stoichiolab-full.png" alt="StoichioLab">
+    <img class="brand-logo-icon" src="../stoichiolab-icon.png" alt="StoichioLab">
+  </a>
+  <div class="header-right">
+    <nav class="nav-links" id="navLinks">
+    <a href="../">Home</a>
+    <a href="./" class="active">Calculator</a>
+    <a href="../history/">History</a>
+    <a href="../contact/">Contact</a>
+  </nav>
+    <button class="nav-toggle" id="navToggle" aria-label="Toggle menu" aria-controls="navLinks" aria-expanded="false">
+      <span></span><span></span><span></span>
+    </button>
+  </div>
+</header>
+
+<div class="page-banner">
+  <div>
+    <h1>Precursor Stoichiometry Calculator</h1>
+    <p>Target composition + starting materials + total quantity &rarr; grams of each precursor to weigh out. Every solve is saved to your <a href="../history/" style="color:#fff;">history</a>.</p>
+  </div>
+</div>
+
+<main>
+
+  <section class="panel full">
+    <div class="panel-heading"><span class="badge"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M19 21l-7-5-7 5V5a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2z"/></svg></span><h2>Recipes</h2></div>
+    <p class="hint">Save the current target composition, precursors, DO-NOT-balance rules, quantity, and batch-mode settings as a named recipe, stored in this browser's <code>localStorage</code> so it's here next time you open this page on this device, or copy a share link that encodes the same state into the URL for someone else (or another device) to open directly.</p>
+    <div class="recipe-row">
+      <input type="text" id="recipeName" placeholder="Recipe name, e.g. BCZT 80/20">
+      <button type="button" id="saveRecipeBtn">Save recipe</button>
+      <select id="recipeSelect"><option value="">-- saved recipes --</option></select>
+      <button type="button" id="loadRecipeBtn">Load</button>
+      <button type="button" id="deleteRecipeBtn">Delete</button>
+      <button type="button" id="shareRecipeBtn">Copy share link</button>
+    </div>
+    <div id="recipeMsg" class="hint" style="min-height:16px; margin-top:8px; margin-bottom:0;"></div>
+  </section>
+
+  <section class="panel">
+    <div class="panel-heading"><span class="badge"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="8.5"/><circle cx="12" cy="12" r="4.2"/><circle cx="12" cy="12" r="0.6" fill="currentColor" stroke="none"/></svg></span><h2>Target composition</h2></div>
+    <p class="hint">This is where you enter what you want to make. Type a formula below (mol% style, e.g. <code>Ba0.8Ca0.2TiO3</code>) and press Enter/Parse to fill the table -- or skip straight to the table below and enter rows by hand (needed for Wt% mode, since a plain formula string can't carry molar-mass info).</p>
+
+    <label for="targetFormulaQuick" class="field-label">Target formula (quick entry, mol%)</label>
+    <div class="quick-entry">
+      <input type="text" id="targetFormulaQuick" placeholder="e.g. Ba0.8Ca0.2TiO3">
+      <button type="button" id="parseFormulaBtn">Parse &rarr; fill table</button>
+    </div>
+
+    <p class="hint">Table view (always the source of truth when you hit Solve). One row per element. In <b>Mol%</b> mode "Concentration" is the element's stoichiometric coefficient. In <b>Wt%</b> mode it's the element's weight fraction/percent, and "Molar mass" converts it to mole ratios. Include every element physically in the target compound here, even one you'll mark DO-NOT-balance below (e.g. oxygen): that flag only removes it from the precursor-balance equations, it doesn't remove its mass from the target, so leaving its concentration at 0 will throw off the total target molar mass.</p>
+
+    <div class="mode-toggle">
+      <label><input type="radio" name="mode" value="mol" checked><span>Mol%</span></label>
+      <label><input type="radio" name="mode" value="wt"><span>Wt%</span></label>
+    </div>
+    <div id="modeNote" class="mode-note">Mol% mode -- concentrations are used directly as stoichiometric coefficients.</div>
+
+    <table id="targetTable">
+      <thead><tr><th>Element</th><th>Concentration</th><th>Molar mass (g/mol)</th><th></th></tr></thead>
+      <tbody></tbody>
+    </table>
+    <button class="add-row" id="addTargetRow">+ add element</button>
+    <div class="example-links">
+      Examples:
+      <a id="exBaTiO3">BaTiO3 (mol%)</a>
+      <a id="exDoped">Doped perovskite, high-precision wt%</a>
+    </div>
+
+    <div class="panel-heading spaced"><span class="badge"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><polygon points="12 2 2 7 12 12 22 7 12 2"/><polyline points="2 17 12 22 22 17"/><polyline points="2 12 12 17 22 12"/></svg></span><h2>Doping-series batch mode</h2></div>
+    <p class="hint">
+      Solve several full compositions at once, e.g. different doping levels of the same system, instead of
+      one at a time. List each composition as a mol% formula (same convention as the quick-entry field above), one
+      per line. Every composition must use exactly the same elements (and therefore the same precursors below),
+      that's what makes one balance solve reusable across the whole batch; results are shown one row per
+      composition, headed by its formula.
+    </p>
+    <label class="field-label" style="display:flex; align-items:center; gap:8px; text-transform:none; letter-spacing:normal; font-weight:600; cursor:pointer;">
+      <input type="checkbox" id="batchEnabled" style="width:auto;">
+      Enable batch mode
+    </label>
+    <div id="batchControls" style="display:none; margin-top:10px;">
+      <label for="batchFormulas" class="field-label">Compositions (one mol% formula per line)</label>
+      <textarea id="batchFormulas" rows="4" placeholder="Ba0.88Ca0.12Ti0.90Zr0.10O3
+Ba0.8Ca0.2Ti0.90Zr0.10O3
+Ba0.7Ca0.3Ti0.90Zr0.10O3"></textarea>
+    </div>
+  </section>
+
+  <section class="panel">
+    <div class="panel-heading"><span class="badge"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M9 2h6M10 2v6.34a2 2 0 0 1-.4 1.2L4.5 17a2 2 0 0 0 1.6 3.2h11.8a2 2 0 0 0 1.6-3.2l-5.1-7.46a2 2 0 0 1-.4-1.2V2"/></svg></span><h2>Starting materials (precursors)</h2></div>
+    <p class="hint">Enter each precursor as a chemical formula, e.g. <code>BaCO3</code>, <code>TiO2</code>, <code>Ca(NO3)2</code>, <code>SrCO3</code>, start typing for suggestions from a library of common reagents. Molar mass is computed automatically.</p>
+    <datalist id="precursorList"></datalist>
+    <table id="precursorTable">
+      <thead><tr><th>Formula</th><th>Molar mass (g/mol)</th><th></th></tr></thead>
+      <tbody></tbody>
+    </table>
+    <button class="add-row" id="addPrecursorRow">+ add precursor</button>
+
+    <div class="panel-heading spaced"><span class="badge"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><circle cx="12" cy="12" r="9"/><line x1="5.5" y1="5.5" x2="18.5" y2="18.5"/></svg></span><h2>DO NOT balance</h2></div>
+    <p class="hint">
+      One rule per line. A bare element (e.g. <code>O</code>) drops it from every balance equation (assumed freely available, e.g. atmospheric oxygen).
+      A group rule <code>GROUP=REPLACEMENT</code> treats that group as decomposing to the replacement for balance purposes only, e.g. <code>CO3=O</code> treats a carbonate group as leaving 1 O behind (releasing CO2); <code>NO3=O</code> likewise for nitrate; <code>H2O=</code> (empty replacement) drops crystal water entirely from the balance while still counting its mass in the precursor's molar mass.
+    </p>
+    <textarea id="doNotBalance" rows="4">O
+CO3=O
+NO3=O</textarea>
+  </section>
+
+  <section class="panel full">
+    <div class="panel-heading"><span class="badge"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3v18M9 3h6M4 7h16M7 7l-3.5 7a3.5 3.5 0 0 0 7 0zM17 7l-3.5 7a3.5 3.5 0 0 0 7 0z"/></svg></span><h2>Total target quantity</h2></div>
+    <p class="hint">Choose whether the amount below is the mass of the final target compound you want to end up with, or the total combined mass of precursors you have on hand or want to use, StoichioLab solves either way and reports the other side too.</p>
+    <div class="mode-toggle">
+      <label><input type="radio" name="qtyBasis" value="product" checked><span>Target product</span></label>
+      <label><input type="radio" name="qtyBasis" value="precursors"><span>Total precursors</span></label>
+    </div>
+    <div class="quantity-row">
+      <input type="number" id="qtyValue" value="100" min="0" step="any">
+      <select id="qtyUnit">
+        <option value="mg" selected>mg</option>
+        <option value="g">g</option>
+      </select>
+      <span id="qtyBasisLabel" style="color:var(--muted); font-size:13px; white-space:nowrap;">of final target compound</span>
+    </div>
+    <button class="solve-btn" id="solveBtn" style="margin-top:16px;">Solve</button>
+    <div id="errorBox"></div>
+    <div id="resultsBox"></div>
+  </section>
+
+  <section class="panel full">
+    <div class="panel-heading"><span class="badge"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"/></svg></span><h2>Literature references</h2></div>
+    <p class="hint">
+      Look up published work on the same substitution family as the target composition above, e.g. for <code>Ba0.88Ca0.12Ti0.90Zr0.10O3</code> this looks for papers on <code>Ba1-xCaxTi1-yZryO3</code> at any doping level, not just this exact one. Works for any composition, not just perovskites or ceramics, via Crossref's free search API. This is a best-effort keyword search, not a chemistry-aware match: skim results for genuinely related compositions rather than trusting every hit, and it needs an internet connection.
+    </p>
+    <button type="button" id="searchLitBtn" class="lit-btn">Find related papers</button>
+    <div id="litResults"></div>
+  </section>
+
+</main>
+
+<footer class="site-footer">
+  Copyright &copy; 2026 <a href="https://slimeslab.github.io">SLIMES Lab</a> &middot; Made with &hearts; by <a href="https://aritraroy.live">Aritra Roy</a> &middot; <a href="https://opensource.org/licenses/MIT">MIT License</a>
+</footer>
+
+<script src="../nav.js"></script>
+<script src="../modal.js"></script>
+<script src="../script.js"></script>
+</body>
+</html>

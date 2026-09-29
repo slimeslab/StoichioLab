@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Contact - StoichioLab</title>
+<link rel="icon" type="image/png" href="../stoichiolab-icon.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700&family=Inter:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../styles.css">
+</head>
+<body>
+
+<header class="site-header">
+  <a class="brand" href="../">
+    <img class="brand-logo-full" src="../stoichiolab-full.png" alt="StoichioLab">
+    <img class="brand-logo-icon" src="../stoichiolab-icon.png" alt="StoichioLab">
+  </a>
+  <div class="header-right">
+    <nav class="nav-links" id="navLinks">
+    <a href="../">Home</a>
+    <a href="../calculator/">Calculator</a>
+    <a href="../history/">History</a>
+    <a href="./" class="active">Contact</a>
+  </nav>
+    <button class="nav-toggle" id="navToggle" aria-label="Toggle menu" aria-controls="navLinks" aria-expanded="false">
+      <span></span><span></span><span></span>
+    </button>
+  </div>
+</header>
+
+<div class="page-banner">
+  <div>
+    <h1>Contact</h1>
+    <p>Questions, bug reports, or a DO-NOT-balance rule that doesn't parse right: here's where to send it.</p>
+  </div>
+</div>
+
+<div class="contact-body">
+  <h2>About this tool</h2>
+  <p>StoichioLab is a small, self-contained precursor stoichiometry calculator built alongside the PiezoSCAN project for ABO&#8323; perovskite piezoelectric discovery. It runs entirely client-side (open <code>index.html</code> in a browser, no server or account required). It was originally ideated from <a href="https://occamy.chemistry.jhu.edu/chemsolve/index.php">ChemSolve</a>'s core idea, given a target composition, a set of precursors, and a total quantity, tell you exactly how many grams of each precursor to weigh out, but extended well beyond it.</p>
+  <p>Beyond that baseline, it adds a manual Mol%/Wt% target-composition toggle, DO-NOT-balance decomposition rules (carbonate/nitrate/hydrate groups), a doping-series batch mode for solving several compositions at once, a precursor autocomplete library, CSV/print export, named/shareable recipes, literature-reference lookup for the same composition family, and a persistent calculation <a href="../history/">history</a>.</p>
+
+  <h2>Get in touch</h2>
+  <dl class="contact-card">
+    <dt>Maintainer</dt>
+    <dd><a href="https://aritraroy.live">Aritra Roy</a></dd>
+    <dt>Lab</dt>
+    <dd><a href="https://slimeslab.github.io">SLIMES Lab</a></dd>
+    <dt>Email</dt>
+    <dd><a href="mailto:contact@aritraroy.live">contact@aritraroy.live</a></dd>
+  </dl>
+</div>
+
+<footer class="site-footer">
+  Copyright &copy; 2026 <a href="https://slimeslab.github.io">SLIMES Lab</a> &middot; Made with &hearts; by <a href="https://aritraroy.live">Aritra Roy</a> &middot; <a href="https://opensource.org/licenses/MIT">MIT License</a>
+</footer>
+
+<script src="../nav.js"></script>
+</body>
+</html>
